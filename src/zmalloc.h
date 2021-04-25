@@ -35,6 +35,7 @@
 #define __xstr(s) __str(s)
 #define __str(s) #s
 
+// 根据宏来使用 相应的 malloc库
 #if defined(USE_TCMALLOC)
 #define ZMALLOC_LIB ("tcmalloc-" __xstr(TC_VERSION_MAJOR) "." __xstr(TC_VERSION_MINOR))
 #include <google/tcmalloc.h>
@@ -72,7 +73,7 @@
 #ifndef ZMALLOC_LIB
 #define ZMALLOC_LIB "libc"
 
-#if !defined(NO_MALLOC_USABLE_SIZE) && \
+#if !defined(NO_MALLOC_USABLE_SIZE) &&             \
     (defined(__GLIBC__) || defined(__FreeBSD__) || \
      defined(USE_MALLOC_USABLE_SIZE))
 
