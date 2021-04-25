@@ -32,23 +32,26 @@
 #define __ADLIST_H__
 
 /* Node, List, and Iterator are the only data structures used currently. */
-
-typedef struct listNode {
+// 双端链表的实现
+typedef struct listNode
+{
     struct listNode *prev;
     struct listNode *next;
     void *value;
 } listNode;
 
-typedef struct listIter {
+typedef struct listIter
+{
     listNode *next;
     int direction;
 } listIter;
 
-typedef struct list {
+typedef struct list
+{
     listNode *head;
     listNode *tail;
     void *(*dup)(void *ptr);
-    void (*free)(void *ptr);
+    void (*free)(void *ptr); // 根据 free来 决定是否free(value)
     int (*match)(void *ptr, void *key);
     unsigned long len;
 } list;
@@ -61,9 +64,9 @@ typedef struct list {
 #define listNextNode(n) ((n)->next)
 #define listNodeValue(n) ((n)->value)
 
-#define listSetDupMethod(l,m) ((l)->dup = (m))
-#define listSetFreeMethod(l,m) ((l)->free = (m))
-#define listSetMatchMethod(l,m) ((l)->match = (m))
+#define listSetDupMethod(l, m) ((l)->dup = (m))
+#define listSetFreeMethod(l, m) ((l)->free = (m))
+#define listSetMatchMethod(l, m) ((l)->match = (m))
 
 #define listGetDupMethod(l) ((l)->dup)
 #define listGetFreeMethod(l) ((l)->free)
@@ -89,6 +92,7 @@ void listRotateTailToHead(list *list);
 void listRotateHeadToTail(list *list);
 void listJoin(list *l, list *o);
 
+// 迭代器 分为两类  前向迭代期 和反向迭代器
 /* Directions for iterators */
 #define AL_START_HEAD 0
 #define AL_START_TAIL 1
